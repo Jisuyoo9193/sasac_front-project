@@ -1,0 +1,1107 @@
+/* ==========================================================================
+   DON'T MISS — 공용 스타일시트
+   구조: 1) 디자인 토큰  2) 기본 리셋  3) 레이아웃  4) 내비게이션
+        5) 버튼  6) 카드/뱃지  7) 폼  8) 사이드바/패널  9) 유틸리티
+   JS 담당자 참고: 상호작용이 필요한 요소에는 id 또는 data-* 속성을 미리
+   붙여두었습니다. (예: data-category, data-status, #item-form 등)
+   ========================================================================== */
+
+/* 1) 디자인 토큰 -------------------------------------------------------- */
+:root {
+  /* 색 - 기본 */
+  --color-bg: #fafafa;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f5f5f5;
+  --color-border: #e7e5e4;
+  --color-border-strong: #d6d3d1;
+  --color-text: #1c1917;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+
+  /* 색 - 브랜드/상태 */
+  --color-primary: #171717;
+  --color-primary-text: #ffffff;
+  --color-danger-bg: #fee2e2;
+  --color-danger-text: #b91c1c;
+  --color-danger-border: #fecaca;
+  --color-warning-bg: #fef3c7;
+  --color-warning-text: #92400e;
+  --color-warning-border: #fde68a;
+  --color-success: #16a34a;
+
+  /* 색 - 카테고리 (아이콘/뱃지 배경+글자색 쌍) */
+  --cat-coupon: #d94a4a;
+  --cat-subscription: #e85d8f;
+  --cat-shopping: #22b573;
+  --cat-life: #f3c55c;
+  --cat-culture: #7a4de8;
+  --cat-traffic: #1d8be0;
+  --cat-coupon-bg: #fde7e7;
+  --cat-subscription-bg: #fde7ef;
+  --cat-shopping-bg: #e4f8ef;
+  --cat-life-bg: #fff1ce;
+  --cat-culture-bg: #eee5ff;
+  --cat-traffic-bg: #e2f1ff;
+
+  /* 반경/그림자/간격 */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --gap: 12px;
+
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+}
+
+/* 2) 기본 리셋 ----------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* 3) 레이아웃 ------------------------------------------------------------ */
+/* 전에는 헤더(.navbar)가 화면 끝까지 꽉 차고, 본문(.page)만 1120px로
+   가운데 정렬돼서 둘의 좌우 폭이 안 맞아 보였어요. 이제 헤더와 본문이
+   같은 1120px 폭을 공유하고, 위아래로 붙어서 하나의 카드처럼 보이게
+   했습니다. (헤더 = 위쪽 둥근 모서리, 본문 = 아래쪽 둥근 모서리) */
+.page {
+  max-width: 1120px;
+  margin: 0 auto 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  overflow: hidden;
+}
+
+.page-body {
+  padding: 24px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.two-col--form {
+  grid-template-columns: 1.4fr 1fr;
+}
+
+@media (max-width: 720px) {
+
+  .two-col,
+  .two-col--form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 4) 내비게이션 ---------------------------------------------------------- */
+/* 기존 2단 구성(로고+메뉴 / 스페이서+버튼+아이콘)에서 계속 쓰는 속성 */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 1120px;
+  margin: 24px auto 0;
+  padding: 14px 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.navbar__logo {
+  font-weight: 600;
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+/* 3단 구성 헤더(components/Header.tsx)에서 쓰는 좌/중/우 그룹 */
+.navbar__left,
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.navbar__right {
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.navbar__center {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.navbar__center .search-box {
+  max-width: 360px;
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .navbar__center {
+    order: 3;
+    flex-basis: 100%;
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  padding-bottom: 2px;
+}
+
+.nav-link[aria-current="page"],
+.nav-link--active {
+  color: var(--color-text);
+  font-weight: 500;
+  border-bottom: 2px solid var(--color-text);
+}
+
+.navbar__spacer {
+  flex: 1;
+}
+
+.icon-btn {
+  border: none;
+  background: none;
+  font-size: 18px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* 5) 버튼 ----------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  border-color: var(--color-primary);
+}
+
+.btn--danger {
+  color: var(--color-danger-text);
+  border-color: var(--color-danger-border);
+}
+
+.btn--sm {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+/* 6) 카드 / 뱃지 --------------------------------------------------------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+}
+
+.stat-card__label {
+  display: block;
+  font-weight: 900;
+  color: var(--color-text-secondary);
+  font-size: 12.5px;
+}
+
+.stat-card__value {
+  display: block;
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+@media (max-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.item-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+}
+
+.item-card__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.item-card__title {
+  font-size: 13px;
+  line-height: 1.35;
+  height: 35px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.item-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.item-card__amount {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.item-card__meta {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+}
+
+/* 완료 처리된 항목 */
+.item-card[data-status="done"] .item-card__title,
+.item-card[data-status="done"] .item-card__amount {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+/* 카테고리 아이콘 색상 */
+.icon-coupon {
+  background: var(--cat-coupon-bg);
+  color: var(--cat-coupon);
+}
+
+.icon-subscription {
+  background: var(--cat-subscription-bg);
+  color: var(--cat-subscription);
+}
+
+.icon-shopping {
+  background: var(--cat-shopping-bg);
+  color: var(--cat-shopping);
+}
+
+.icon-life {
+  background: var(--cat-life-bg);
+  color: var(--cat-life);
+}
+
+.icon-culture {
+  background: var(--cat-culture-bg);
+  color: var(--cat-culture);
+}
+
+.icon-traffic {
+  background: var(--cat-traffic-bg);
+  color: var(--cat-traffic);
+}
+
+.icon-done {
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+}
+
+/* D-Day / 상태 뱃지 */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+
+.badge--danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+
+.badge--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.badge--neutral {
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+}
+
+.badge--muted {
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+/* 7) 폼 ------------------------------------------------------------------- */
+.form-field {
+  margin-bottom: 16px;
+}
+
+.form-field__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12.5px;
+  margin-bottom: 6px;
+}
+
+.form-label__required {
+  color: var(--color-danger-text);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  padding: 9px 12px;
+  background: var(--color-surface);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.input--error {
+  border-color: var(--color-danger-border);
+}
+
+.error-text {
+  font-size: 11.5px;
+  color: var(--color-danger-text);
+  margin-top: 4px;
+  /* JS: 검증 실패 시에만 display:block, 평소엔 display:none */
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 64px;
+}
+
+/* 카테고리 선택 (세그먼트 라디오 그룹) */
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.segmented input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.segmented__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 16px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.segmented input[type="radio"]:checked+.segmented__label {
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  border-color: var(--color-primary);
+}
+
+.segmented input[type="radio"]:focus-visible+.segmented__label {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* 검색 / 필터 */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  padding: 7px 12px;
+  color: var(--color-text-muted);
+  max-width: 320px;
+  flex: 1;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background: none;
+}
+
+/* 전체 목록 상단: 제목/검색창을 나란히 배치 (이전엔 이 규칙이 없어서
+   검색창이 제목 아래로 그냥 떨어져 보였습니다) */
+.items-header__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.items-header__top .search-box {
+  max-width: 320px;
+}
+
+/* 전체 목록 카테고리 필터 영역 */
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin: 12px 0 20px;
+
+  padding: 0;
+  list-style: none;
+}
+
+/* 각 카테고리 버튼 */
+.chip {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* 마우스 올렸을 때 */
+.chip:hover {
+  border-color: #999;
+  background: #f8f8f8;
+}
+
+/* 선택된 버튼 */
+.chip[aria-pressed="true"] {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  font-weight: 600;
+}
+
+/* 8) 사이드바 / 상세 패널 ------------------------------------------------- */
+
+.side-panel {
+  width: 100%;
+  height: 100%;
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+}
+
+.side-panel__title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+
+/* ==========================================================================
+   7일 이내 카테고리별 금액
+   ========================================================================== */
+
+.category-row {
+  display: grid;
+
+  /* 점 / 카테고리명 / 막대 / 금액 */
+  grid-template-columns: 10px 60px minmax(80px, 1fr) 78px;
+
+  align-items: center;
+  column-gap: 10px;
+
+  margin-bottom: 16px;
+
+  font-size: 12.5px;
+}
+
+.category-row:last-of-type {
+  margin-bottom: 0;
+}
+
+
+/* 왼쪽 색상 점 */
+.category-row__dot {
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  flex-shrink: 0;
+}
+
+
+/* 회색 막대 배경 */
+.category-row__bar {
+  width: 100%;
+  height: 6px;
+
+  background: #e5e7eb;
+
+  border-radius: 999px;
+
+  overflow: hidden;
+}
+
+
+/* 실제 색상 막대 */
+.category-row__bar>span {
+  display: block;
+
+  height: 100%;
+
+  border-radius: 999px;
+
+  transition: width 0.25s ease;
+}
+
+
+/* 오른쪽 금액 */
+.category-row__count,
+.category-row__amount {
+  width: 78px;
+
+  text-align: right;
+
+  white-space: nowrap;
+
+  font-size: 12.5px;
+
+  color: var(--color-text-secondary);
+}
+
+
+/* ==========================================================================
+   7일 이내 총 금액
+   ========================================================================== */
+
+.category-total {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 22px;
+  padding-top: 18px;
+
+  border-top: 1px solid var(--color-border);
+
+  font-size: 13px;
+}
+
+.category-total strong {
+  font-size: 16px;
+  font-weight: 700;
+
+  color: var(--color-text);
+}
+
+
+/* ==========================================================================
+   카드에 사용하는 이미지
+   ========================================================================== */
+
+.item-card__logo {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.category-icon-img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+
+/* ==========================================================================
+   모바일 대응
+   ========================================================================== */
+
+@media (max-width: 720px) {
+
+  .side-panel {
+    height: auto;
+  }
+
+  .category-row {
+    grid-template-columns: 10px 58px minmax(60px, 1fr) 72px;
+
+    column-gap: 8px;
+  }
+
+  .category-row__count,
+  .category-row__amount {
+    width: 72px;
+
+    font-size: 12px;
+  }
+}
+
+
+
+
+
+.example-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.example-row:last-child {
+  border-bottom: none;
+}
+
+.example-row__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.example-row__title {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.example-row__desc {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+/* 상세 화면 헤더 */
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.detail-header__icon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.detail-header__title {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.detail-header__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-secondary);
+  font-size: 12.5px;
+  margin-bottom: 16px;
+}
+
+/* 마감 안내 배너 */
+.banner {
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.banner--danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+
+.banner__title {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.banner__desc {
+  font-size: 11.5px;
+}
+
+.info-list {
+  margin: 0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 12.5px;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-row__label {
+  color: var(--color-text-secondary);
+}
+
+.tip-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 11.5px;
+  margin-top: 12px;
+}
+
+/* 9) 유틸리티 -------------------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.empty-state,
+.error-state,
+.loading-state {
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--color-text-secondary);
+  /* JS: 상태에 따라 이 블록과 목록(.card-grid)을 서로 바꿔 보여주기 */
+}
+
+.hero {
+  margin-bottom: 20px;
+}
+
+.hero__title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  line-height: 1.35;
+}
+
+.hero__subtitle {
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-size: 13px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.page-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.page-subtitle {
+  color: var(--color-text-secondary);
+  font-size: 12.5px;
+  margin: 0 0 16px;
+}
+
+/* ==========================================================================
+   홈 히어로 배너
+   ========================================================================== */
+
+.hero-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: linear-gradient(135deg, #fff1f5, #ffe3ec);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+
+.hero-banner__title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0 0 8px;
+  color: #3a2230;
+}
+
+.hero-banner__subtitle {
+  font-size: 13px;
+  color: #8a6b76;
+  margin: 0;
+}
+
+.hero-banner__illustration {
+  position: relative;
+  width: 110px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+.hero-banner__calendar {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  width: 78px;
+  height: 78px;
+  border-radius: 20px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  color: #ff5c8a;
+  box-shadow: 0 10px 22px rgba(255, 92, 138, 0.25);
+}
+
+.hero-banner__bell {
+  position: absolute;
+  right: 0;
+  bottom: -4px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ff5c8a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  box-shadow: 0 6px 14px rgba(255, 92, 138, 0.4);
+}
+
+.hero-banner__badge {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  background: #ffffff;
+  color: #ff5c8a;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .hero-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-banner__illustration {
+    align-self: center;
+    margin-top: 12px;
+  }
+}
+
+/* stat-card에 건수까지 함께 보여줄 때 쓰는 두 번째 줄 */
+.stat-card__count {
+  display: block;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.stat-card--urgent {
+  background: var(--color-warning-bg);
+}
+
+.stat-card--missed {
+  background: var(--color-danger-bg);
+}
+
+/* ==========================================================================
+   전체 목록 리스트형 행 (카드형 대신 한 줄씩 보여줄 때)
+   ========================================================================== */
+
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.item-row__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.item-row__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-row__title {
+  font-size: 13.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-row__meta {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.item-row__amount {
+  font-size: 13px;
+  font-weight: 600;
+  width: 84px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.item-row[data-status="done"] .item-row__title,
+.item-row[data-status="done"] .item-row__amount {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+@media (max-width: 640px) {
+  .item-row {
+    flex-wrap: wrap;
+  }
+
+  .item-row__amount {
+    width: auto;
+  }
+}
