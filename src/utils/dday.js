@@ -39,8 +39,7 @@ export function getDday(dueDate) {
 /**
  * D-Day 뱃지 색상 클래스. globals.css에 있는
  * badge--danger / badge--warning / badge--neutral / badge--muted를 사용합니다.
- * (이전에는 ItemCard가 badge--danger를 하드코딩해서 D-17짜리 항목도
- *  빨간 뱃지로 보였습니다. 이 함수로 D-Day에 따라 색을 다르게 줍니다.)
+ * 이 함수로 D-Day에 따라 색을 다르게 줍니다.
  */
 export function getDdayVariant(dueDate) {
   const diffDay = getDdayNumber(dueDate);
